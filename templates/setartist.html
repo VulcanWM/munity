@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Munity - Enter artist</title>
+    <link href="/main.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="header">
+      <h1>Enter artist</h1>
+    </div>
+    <div class="navbar">
+      <a class="nav-link nav-link-ltr" href="/">Home</a>
+      {% if artist == False %}
+        <a class="nav-link nav-link-ltr" href="/setartist">set artist</a>
+      {% else %}
+        <a class="nav-link nav-link-ltr">Artist: {{artist}}</a>
+        <a class="nav-link nav-link-ltr" href="/setartist">change artist</a>
+        <a class="nav-link nav-link-ltr" href="/guesssong">guess lyrics</a>
+      {% endif %}
+    </div>
+    <div class="content">
+      <form method="POST" action="/setartist">
+        <label for="artist">Enter the artist you want to get quizzed on:</label>
+        <input type="text" name="artist" id="artist" required>
+        <button>SUBMIT</button>
+      </form>
+    </div>
+    <script src="/sticky.js"></script>
+  </body>
+</html>
