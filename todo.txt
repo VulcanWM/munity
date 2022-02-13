@@ -1,0 +1,7 @@
+- login
+- logout
+- signup
+- add an introduction to the main page
+- add a README file
+- add profiles with databases
+- album cover game

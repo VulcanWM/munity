@@ -4,6 +4,10 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import lyricsgenius
 import random
 from flask import session
+from string import printable
+from html import escape as esc
+import pymongo
+import dns
 
 cid = os.getenv("SPOTIPY_CLIENT_ID")
 secret = os.getenv("SPOTIPY_CLIENT_SECRET")
@@ -11,6 +15,9 @@ client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secr
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 geniustoken = os.getenv("GENIUS_ACCESS_TOKEN")
 genius = lyricsgenius.Genius(geniustoken)
+clientmongo = pymongo.MongoClient(os.getenv("mongo_client"))
+usersdb = clientmongo.Users
+profilescol = usersdb.Profiles
 
 def getsongnames(artistname):
   results = sp.search(q='artist:' + artistname, type='artist')
@@ -88,8 +95,6 @@ def getalbumcovers(artistname):
   else:
     return False
 
-print(getalbumcovers("nico collins"))
-
 def addcookie(key, value):
   session[key] = value
 
@@ -104,3 +109,33 @@ def getcookie(key):
       return False
   except:
     return False
+
+def makeaccount(username, password, passwordagain):
+  if len(username) > 25:
+    return "Your username cannot have more than 25 letters!"
+  if len(username) < 2:
+    return "You have to have more than 2 letters in your username!"
+  if set(username).difference(printable) or esc(username) != username:
+    return "Your username cannot contain any special characters!"
+  if username != username.lower():
+    return "Your username has to be all lowercase!"
+  if checkusernamealready(username) == True:
+    return "A user already has this username! Try another one."
+  if password != passwordagain:
+    return "The two passwords don't match!"
+  if len(password) > 25:
+    return "Your password cannot have more than 25 letters!"
+  if len(password) < 2:
+    return "You have to have more than 2 letters in your password!"
+  if set(password).difference(printable):
+    return "Your password cannot contain any special characters!"
+  passhash = generate_password_hash(password)
+  document = [{
+    "Username": username,
+    "Password": passhash,
+    "Created": str(datetime.datetime.now()),
+    "Money": 0,
+    "XP": 0
+  }]
+  profilescol.insert_many(document)
+  return True
