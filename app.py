@@ -138,3 +138,10 @@ def loginfunc():
     return redirect("/")
   else:
     return redirect("/")
+
+@app.route('/profile')
+def profile():
+  if getcookie("User") == False:
+    return redirect("/")
+  else:
+    return render_template("profile.html", user=getuser(getcookie("User")))

@@ -1,3 +1,4 @@
+- profile
 - xp at the end of a game if logged in
 - add an introduction to the main page
 - add a README file
