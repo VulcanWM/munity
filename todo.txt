@@ -1,7 +1,4 @@
-- login
-- logout
-- signup
+- xp at the end of a game if logged in
 - add an introduction to the main page
 - add a README file
-- add profiles with databases
 - album cover game

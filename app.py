@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, send_file
-from functions import getrandomline, addcookie, delcookies, getcookie
+from functions import getrandomline, addcookie, delcookies, getcookie, makeaccount, gethashpass, getuser
 import os
+from werkzeug.security import check_password_hash
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
@@ -78,3 +79,62 @@ def scriptjs():
 @app.route('/main.css')
 def maincss():
   return send_file("static/main.css")
+
+@app.route("/signup")
+def signuppage():
+  if getcookie("User") == False:
+    return render_template("signup.html")
+  else:
+    return redirect("/")
+  
+@app.route("/signup", methods=['POST', 'GET'])
+def signupfunc():
+  if request.method == 'POST':
+    if getcookie("User") != False:
+      return redirect("/")
+    username = request.form['username']
+    password = request.form['password']
+    passwordagain = request.form['passwordagain']
+    func = makeaccount(username, password, passwordagain)
+    if func == True:
+      addcookie("User", username)
+      return redirect("/")
+    else:
+      return render_template("signup.html", error=func)
+
+@app.route("/logout")
+def logout():
+  name = getcookie("artist")
+  songnumber = getcookie("songnumber")
+  points = getcookie("points")
+  delcookies()
+  if name != False:
+    addcookie("artist", name)
+  if songnumber != False:
+    addcookie("songnumber", songnumber)
+  if points != False:
+    addcookie("points", points)
+  return redirect("/")
+
+@app.route("/login")
+def loginpage():
+  if getcookie("User") == False:
+    return render_template("login.html")
+  else:
+    return redirect("/")
+
+@app.route("/login", methods=['POST', 'GET'])
+def loginfunc():
+  if request.method == 'POST':
+    if getcookie("User") != False:
+      return render_template("login.html", error="You have already logged in!")
+    username = request.form['username']
+    if getuser(username) == False:
+      return render_template("login.html", error="That is not a username!")
+    password = request.form['password']
+    if check_password_hash(gethashpass(username), password) == False:
+      return render_template("login.html", error="Wrong password!")
+    addcookie("User", username)
+    return redirect("/")
+  else:
+    return redirect("/")

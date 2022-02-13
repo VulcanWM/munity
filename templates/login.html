@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Munity - Login</title>
+    <link href="/main.css" rel="stylesheet" type="text/css" />
+    <script src="/sticky.js"></script>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Login</h1>
+    </div>
+    <div class="navbar">
+      <a class="nav-link nav-link-ltr" href="/">Home</a>
+      {% if artist == False %}
+        <a class="nav-link nav-link-ltr" href="/setartist">set artist</a>
+      {% else %}
+        <a class="nav-link nav-link-ltr">Artist: {{artist}}</a>
+        <a class="nav-link nav-link-ltr" href="/setartist">change artist</a>
+        <a class="nav-link nav-link-ltr" href="/guesssong">guess lyrics</a>
+      {% endif %}
+      <a class="nav-link nav-link-ltr" href="/login">Login</a>
+      <a class="nav-link nav-link-ltr" href="/signup">Signup</a>
+    </div>
+    <div class="content">
+      {% if error != None and error != False and error != "" %}
+        <p>{{error}}</p>
+        <br>
+      {% endif %}
+      <center>
+        <div class="login-form-body">
+          <div class="login-form-form">
+            <form method="POST" action="/login">
+              <h2>Login</h2>
+              <input class="login-form-input" placeholder="username" name="username" autocomplete="off" required><br>
+              <input class="login-form-input" placeholder="password" type="password" name="password" required><br><br>
+              <button class="login-form-button">login</button>
+            </form>
+          </div>
+        </div>
+      </center>
+    </div>
+    <script src="/sticky.js"></script>
+  </body>
+</html>

@@ -8,6 +8,8 @@ from string import printable
 from html import escape as esc
 import pymongo
 import dns
+import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 cid = os.getenv("SPOTIPY_CLIENT_ID")
 secret = os.getenv("SPOTIPY_CLIENT_SECRET")
@@ -110,6 +112,13 @@ def getcookie(key):
   except:
     return False
 
+def checkusernamealready(username):
+  myquery = { "Username": username }
+  mydoc = profilescol.find(myquery)
+  for x in mydoc:
+    return True
+  return False
+
 def makeaccount(username, password, passwordagain):
   if len(username) > 25:
     return "Your username cannot have more than 25 letters!"
@@ -135,7 +144,25 @@ def makeaccount(username, password, passwordagain):
     "Password": passhash,
     "Created": str(datetime.datetime.now()),
     "Money": 0,
-    "XP": 0
+    "XP": 0,
+    "SL": {},
+    "AC": {}
   }]
   profilescol.insert_many(document)
   return True
+
+def gethashpass(username):
+  myquery = { "Username": username }
+  mydoc = profilescol.find(myquery)
+  for x in mydoc:
+    return x['Password']
+  return False
+
+def getuser(username):
+  myquery = { "Username": username }
+  mydoc = profilescol.find(myquery)
+  for x in mydoc:
+    if x.get("Deleted", None) == None:
+      return x
+    return False
+  return False
