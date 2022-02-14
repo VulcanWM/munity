@@ -31,12 +31,12 @@ def getsongnames(artistname):
     albums = sp.artist_albums(artist_id=uri)
     for album in albums['items']:
       if album['total_tracks'] == 1:
-        if "remix" not in album['name'].lower() and "acoustic" not in album['name'].lower():
+        if "remix" not in album['name'].lower() and "acoustic" not in album['name'].lower() and "edit" not in album['name'].lower():
           songnames.append(album['name'])
       else:
         albumsongs = sp.album_tracks(album['uri'])
         for track in albumsongs['items']:
-          if "remix" not in track['name'].lower() and "acoustic" not in track['name'].lower():
+          if "remix" not in track['name'].lower() and "acoustic" not in track['name'].lower() and "edit" not in track['name'].lower():
             songnames.append(track['name'])
     return songnames
   else:
@@ -74,7 +74,12 @@ def getrandomline(artistname):
   chorus = chorustrue.replace("Chorus]", "")
   chorus = chorus.split("\n")
   chorus = [ x for x in chorus if x != ""]
-  line = random.choice(chorus)
+  realchorus = []
+  for thelyric in chorus:
+    if " " in thelyric:
+      if "embed" not in thelyric.lower():
+        realchorus.append(thelyric)
+  line = random.choice(realchorus)
   return song, line
 
 def getalbumcovers(artistname):
