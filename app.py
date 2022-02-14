@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, send_file
-from functions import getrandomline, addcookie, delcookies, getcookie, makeaccount, gethashpass, getuser, addmoney, addxp
+from functions import getrandomline, addcookie, delcookies, getcookie, makeaccount, gethashpass, getuser, addmoney, addxp, changesonglyricscore
 import os
 from werkzeug.security import check_password_hash
 
@@ -42,6 +42,7 @@ def guessartistfunc():
       if songnumber > 19:
         addxp(username, points)
         addmoney(username, points)
+        changesonglyricscore(username, points*5, name.lower())
         return render_template("guesssongresults.html", result=True, end=points*5, artist=getcookie("artist"), username=getcookie("User"))
       addcookie("songnumber", songnumber)
       addcookie("points", points + 1)
@@ -51,6 +52,7 @@ def guessartistfunc():
       if songnumber > 19:
         addxp(username, points)
         addmoney(username, points)
+        changesonglyricscore(username, points*5, name.lower())
         return render_template("guesssongresults.html", result=accsong, end=points*5, artist=getcookie("artist"), username=getcookie("User"))
       addcookie("songnumber", songnumber)
       addcookie("points", points)
@@ -148,4 +150,4 @@ def profile():
   if getcookie("User") == False:
     return redirect("/")
   else:
-    return render_template("profile.html", user=getuser(getcookie("User")))
+    return render_template("profile.html", user=getuser(getcookie("User")), artist=getcookie("artist"))

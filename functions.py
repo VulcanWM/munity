@@ -184,3 +184,23 @@ def addxp(username, amount):
   user['XP'] = money
   profilescol.delete_one({"_id": user['_id']})
   profilescol.insert_many([user])
+
+def changesonglyricscore(username, score, artist):
+  user = getuser(username)
+  songlyric = user['SL']
+  userscore = songlyric.get(artist.lower(), False)
+  if userscore == False:
+    songlyric[artist.lower()] = score
+    del user['SL']
+    user['SL'] = songlyric
+    profilescol.delete_one({"_id": user['_id']})
+    profilescol.insert_many([user])
+  else:
+    if score > userscore:
+      del songlyric[artist.lower()]
+      songlyric[artist.lower()] = score
+      del user['SL']
+      user['SL'] = songlyric
+      profilescol.delete_one({"_id": user['_id']})
+      profilescol.insert_many([user])
+  return True
