@@ -38,6 +38,8 @@
         <a href="/guesssong">next song</a>
       {% else %}
         <p>You got {{end}}% of {{artist}}'s song choruses correctly</p>
+        {% set points = end/5 %}
+        <p>You got {{points}} XP and {{points}} money!</p>
       {% endif %}
     </div>
   </body>

@@ -166,3 +166,21 @@ def getuser(username):
       return x
     return False
   return False
+
+def addmoney(username, amount):
+  user = getuser(username)
+  money = user['Money']
+  money = money + amount
+  del user['Money']
+  user['Money'] = money
+  profilescol.delete_one({"_id": user['_id']})
+  profilescol.insert_many([user])
+
+def addxp(username, amount):
+  user = getuser(username)
+  money = user['XP']
+  money = money + amount
+  del user['XP']
+  user['XP'] = money
+  profilescol.delete_one({"_id": user['_id']})
+  profilescol.insert_many([user])
