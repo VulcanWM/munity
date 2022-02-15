@@ -89,7 +89,7 @@ def maincss():
 @app.route("/signup")
 def signuppage():
   if getcookie("User") == False:
-    return render_template("signup.html")
+    return render_template("signup.html", artist=getcookie("artist"))
   else:
     return redirect("/")
   
@@ -106,7 +106,7 @@ def signupfunc():
       addcookie("User", username)
       return redirect("/")
     else:
-      return render_template("signup.html", error=func)
+      return render_template("signup.html", error=func, artist=getcookie("artist"))
 
 @app.route("/logout")
 def logout():
@@ -125,7 +125,7 @@ def logout():
 @app.route("/login")
 def loginpage():
   if getcookie("User") == False:
-    return render_template("login.html")
+    return render_template("login.html", artist=getcookie("artist"))
   else:
     return redirect("/")
 
@@ -133,13 +133,13 @@ def loginpage():
 def loginfunc():
   if request.method == 'POST':
     if getcookie("User") != False:
-      return render_template("login.html", error="You have already logged in!")
+      return render_template("login.html", error="You have already logged in!", artist=getcookie("artist"))
     username = request.form['username']
     if getuser(username) == False:
-      return render_template("login.html", error="That is not a username!")
+      return render_template("login.html", error="That is not a username!", artist=getcookie("artist"))
     password = request.form['password']
     if check_password_hash(gethashpass(username), password) == False:
-      return render_template("login.html", error="Wrong password!")
+      return render_template("login.html", error="Wrong password!", artist=getcookie("artist"))
     addcookie("User", username)
     return redirect("/")
   else:
@@ -150,4 +150,13 @@ def profile():
   if getcookie("User") == False:
     return redirect("/")
   else:
-    return render_template("profile.html", user=getuser(getcookie("User")), artist=getcookie("artist"))
+    return render_template("profile.html", user=getuser(getcookie("User")), artist=getcookie("artist"), username=getcookie("User"))
+
+@app.route("/@<username>")
+def userprofile(username):
+  if getuser(username) == False:
+    return redirect("/")
+  if getcookie("User") != False:
+    if getcookie("User") == username:
+      return redirect("/profile")
+  return render_template("userprofile.html", user=getuser(username), artist=getcookie("artist"), username=getcookie("User"))

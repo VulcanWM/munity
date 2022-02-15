@@ -209,3 +209,19 @@ def changesonglyricscore(username, score, artist):
       profilescol.delete_one({"_id": user['_id']})
       profilescol.insert_many([user])
   return True
+
+def xpleaderboard():
+  mydoc = profilescol.find().sort("XP", -1).limit(10)
+  lb = []
+  for x in mydoc:
+    del x['Password']
+    lb.append(x)
+  return lb
+
+def moneyleaderboard():
+  mydoc = profilescol.find().sort("Money", -1).limit(10)
+  lb = []
+  for x in mydoc:
+    del x['Password']
+    lb.append(x)
+  return lb

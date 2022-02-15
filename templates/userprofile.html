@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Munity - {{user['Username']}}'s Profile</title>
+    <link href="/main.css" rel="stylesheet" type="text/css" />
+    <script src="/sticky.js"></script>
+  </head>
+  <body>
+    <div class="header">
+      <h1>{{user['Username']}}</h1>
+    </div>
+    <div class="navbar">
+      <a class="nav-link nav-link-ltr" href="/">Home</a>
+      {% if artist == False %}
+        <a class="nav-link nav-link-ltr" href="/setartist">set artist</a>
+      {% else %}
+        <a class="nav-link nav-link-ltr">Artist: {{artist}}</a>
+        <a class="nav-link nav-link-ltr" href="/setartist">change artist</a>
+        <a class="nav-link nav-link-ltr" href="/guesssong">guess lyrics</a>
+      {% endif %}
+      <a class="nav-link nav-link-ltr" href="/profile">Profile</a>
+      <a class="nav-link nav-link-ltr" href="/logout">Logout</a>
+    </div>
+    <div class="content">
+      <h2>{{user['Username']}}</h2>
+      <p>Account made on: {{user['Created']}}</p>
+      <hr>
+      <p>XP: {{user['XP']}}</p>
+      <p>Money: {{user['Money']}}</p>
+      <hr>
+      <h3>Highest scores on song lyrics:</h3>
+      {% if user['SL'] == {} %}
+        <p>They haven't played any song lyric games!</p>
+      {% endif %}
+      <ul>
+        {% for slkey in user['SL'].keys() %}
+          <li>{{slkey}}: {{user['SL'][slkey]}}</li>
+        {% endfor %}
+      </ul>
+      <br>
+      <h3>Highest scores on album covers:</h3>
+      {% if user['AC'] == {} %}
+        <p>They haven't played any album cover games!</p>
+      {% endif %}
+      <ul>
+        {% for ackey in user['AC'].keys() %}
+          <li>{{ackey}}: {{user['AC'][ackey]}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>
