@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, send_file
-from functions import getrandomline, addcookie, delcookies, getcookie, makeaccount, gethashpass, getuser, addmoney, addxp, changesonglyricscore
+from functions import getrandomline, addcookie, delcookies, getcookie, makeaccount, gethashpass, getuser, addmoney, addxp, changesonglyricscore, xpleaderboard, moneyleaderboard
 import os
 from werkzeug.security import check_password_hash
 
@@ -160,3 +160,13 @@ def userprofile(username):
     if getcookie("User") == username:
       return redirect("/profile")
   return render_template("userprofile.html", user=getuser(username), artist=getcookie("artist"), username=getcookie("User"))
+
+@app.route("/lb")
+@app.route("/leaderboard")
+def leaderboardpage():
+  xplb = xpleaderboard()
+  moneylb = moneyleaderboard()
+  if getcookie("User") == False:
+    return render_template("leaderboard.html", xplb=xplb, moneylb=moneylb, logged=False)
+  else:
+    return render_template("leaderboard.html", xplb=xplb, moneylb=moneylb, logged=getcookie("User"))

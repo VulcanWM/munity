@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Munity - Leaderboards</title>
+    <link href="/main.css" rel="stylesheet" type="text/css" />
+    <script src="/sticky.js"></script>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Leaderboards</h1>
+    </div>
+    <div class="navbar">
+      <a class="nav-link nav-link-ltr" href="/">Home</a>
+      {% if artist == False %}
+        <a class="nav-link nav-link-ltr" href="/setartist">set artist</a>
+      {% else %}
+        <a class="nav-link nav-link-ltr">Artist: {{artist}}</a>
+        <a class="nav-link nav-link-ltr" href="/setartist">change artist</a>
+        <a class="nav-link nav-link-ltr" href="/guesssong">guess lyrics</a>
+      {% endif %}
+      <a class="nav-link nav-link-ltr" href="/profile">Profile</a>
+      <a class="nav-link nav-link-ltr" href="/logout">Logout</a>
+    </div>
+    <div class="content">
+      <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'XP')" id="defaultOpen">Top 10 XP Players</button>
+        <button class="tablinks" onclick="openCity(event, 'Money')">Top 10 Money Players</button>
+      </div>
+      <div id="XP" class="tabcontent">
+        <h2>Top 10 XP Players</h2>
+        {% for user in xplb %}
+          <p><a href="/@{{user['Username']}}">{{user['Username']}}</a>: {{user['XP']}}</p>
+        {% endfor %}
+      </div>
+      <div id="Money" class="tabcontent">
+        <h2>Top 10 Money Players</h2>
+        {% for user in moneylb %}
+          <p><a href="/@{{user['Username']}}">{{user['Username']}}</a>: {{user['Money']}}</p>
+        {% endfor %}
+      </h2>
+    </div>
+  </body>
+</html>
