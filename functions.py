@@ -44,7 +44,7 @@ def getsongnames(artistname):
 
 def getlyrics(songname, artistname):
   song = genius.search_song(songname, artistname)
-  return song
+  return song.lyrics
 
 def getrandomline(artistname):
   names = getsongnames(artistname)
@@ -53,31 +53,32 @@ def getrandomline(artistname):
   while lyrics == None:
     song = random.choice(names)
     lyrics = getlyrics(song, artistname)
-  lyrics = lyrics.lyrics
-  parts = lyrics.split("[")
-  chorustrue = False
-  for part in parts:
-    if "Chorus]" in part:
-      chorustrue = part
-  while chorustrue == False:
-    song = random.choice(names)
-    lyrics = getlyrics(song, artistname)
-    while lyrics == None:
-      song = random.choice(names)
-      lyrics = getlyrics(song, artistname)
-    lyrics = lyrics.lyrics
-    parts = lyrics.split("[")
-    chorustrue = False
-    for part in parts:
-      if "Chorus]" in part:
-        chorustrue = part
-  chorus = chorustrue.replace("Chorus]", "")
+  chorus = lyrics
+  # lyrics = lyrics.lyrics
+  # parts = lyrics.split("[")
+  # chorustrue = False
+  # for part in parts:
+  #   if "Chorus]" in part:
+  #     chorustrue = part
+  # while chorustrue == False:
+  #   song = random.choice(names)
+  #   lyrics = getlyrics(song, artistname)
+  #   while lyrics == None:
+  #     song = random.choice(names)
+  #     lyrics = getlyrics(song, artistname)
+  #   lyrics = lyrics.lyrics
+  #   parts = lyrics.split("[")
+  #   chorustrue = False
+  #   for part in parts:
+  #     if "Chorus]" in part:
+  #       chorustrue = part
+  # chorus = chorustrue.replace("Chorus]", "")
   chorus = chorus.split("\n")
   chorus = [ x for x in chorus if x != ""]
   realchorus = []
   for thelyric in chorus:
     if " " in thelyric:
-      if "embed" not in thelyric.lower():
+      if "embed" not in thelyric.lower() and "verse" not in thelyric.lower() and "chorus" not in thelyric.lower() and "bridge" not in thelyric.lower():
         realchorus.append(thelyric)
   line = random.choice(realchorus)
   return song, line

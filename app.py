@@ -169,4 +169,4 @@ def leaderboardpage():
   if getcookie("User") == False:
     return render_template("leaderboard.html", xplb=xplb, moneylb=moneylb, logged=False)
   else:
-    return render_template("leaderboard.html", xplb=xplb, moneylb=moneylb, logged=getcookie("User"))
+    return render_template("leaderboard.html", xplb=xplb, moneylb=moneylb, logged=getcookie("User"), artist=getcookie("artist"))
