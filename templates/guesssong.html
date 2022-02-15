@@ -19,12 +19,15 @@
         <a class="nav-link nav-link-ltr">Artist: {{artist}}</a>
         <a class="nav-link nav-link-ltr" href="/setartist">change artist</a>
         <a class="nav-link nav-link-ltr" href="/guesssong">guess lyrics</a>
+        <a class="nav-link nav-link-ltr" href="/guessalbum">guess album</a>
       {% endif %}
       {% if username == False %}
         <a class="nav-link nav-link-ltr" href="/login">Login</a>
         <a class="nav-link nav-link-ltr" href="/signup">Signup</a>
+        <a class="nav-link nav-link-ltr" href="/leaderboard">Leaderboard</a>
       {% else %}
         <a class="nav-link nav-link-ltr" href="/profile">Profile</a>
+        <a class="nav-link nav-link-ltr" href="/leaderboard">Leaderboard</a>
         <a class="nav-link nav-link-ltr" href="/logout">Logout</a>
       {% endif %}
     </div>

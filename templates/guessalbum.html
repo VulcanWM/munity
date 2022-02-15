@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Munity</title>
+    <title>Munity - Guess the album cover</title>
     <link href="/main.css" rel="stylesheet" type="text/css" />
     <script src="/sticky.js"></script>
   </head>
   <body>
     <div class="header">
-      <h1>Munity</h1>
+      <h1>Guess the album cover</h1>
     </div>
     <div class="navbar">
       <a class="nav-link nav-link-ltr" href="/">Home</a>
@@ -32,9 +32,23 @@
       {% endif %}
     </div>
     <div class="content">
-      <p>Munity is a game where you can test yourself on things related to an artist.</p>
-      <p>This game gets the song and album names from Spotify, and then gets lyrics from Genius.com.</p>
-      <p>You can play it without signing up, but if you sign up, you can see your highest scores in each game and can have XP and money</p>
+      <div class="loading">
+      </div>
+      <div class="form">
+        {% if songnumber == 1 %}
+          <p>You get 10 album covers and then it gives you a percentage of how good you did</p>
+        {% endif %}
+        <h4>{{artist}}</h4>
+        <p>Album number: {{songnumber}}</p>
+        <p>Points: {{points}}</p>
+        <img class="albumcover" src="{{lyric}}">
+        <form method="POST" action="/guessalbum">
+          <label for="song">Album:</label>
+          <input type="text" name="song" id="song" required>
+          <br>
+          <input class="login-form-button" type="submit" value="Submit">
+        </form>
+      </div>
     </div>
   </body>
 </html>

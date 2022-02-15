@@ -44,7 +44,7 @@ def getsongnames(artistname):
 
 def getlyrics(songname, artistname):
   song = genius.search_song(songname, artistname)
-  return song.lyrics
+  return song
 
 def getrandomline(artistname):
   names = getsongnames(artistname)
@@ -53,7 +53,7 @@ def getrandomline(artistname):
   while lyrics == None:
     song = random.choice(names)
     lyrics = getlyrics(song, artistname)
-  chorus = lyrics
+  chorus = lyrics.lyrics
   # lyrics = lyrics.lyrics
   # parts = lyrics.split("[")
   # chorustrue = False
@@ -83,7 +83,7 @@ def getrandomline(artistname):
   line = random.choice(realchorus)
   return song, line
 
-def getalbumcovers(artistname):
+def getalbumcover(artistname):
   results = sp.search(q='artist:' + artistname, type='artist')
   albumcovers = []
   albumnames = []
@@ -207,6 +207,26 @@ def changesonglyricscore(username, score, artist):
       songlyric[artist.lower()] = score
       del user['SL']
       user['SL'] = songlyric
+      profilescol.delete_one({"_id": user['_id']})
+      profilescol.insert_many([user])
+  return True
+
+def changealbumcoverscore(username, score, artist):
+  user = getuser(username)
+  songlyric = user['AC']
+  userscore = songlyric.get(artist.lower(), False)
+  if userscore == False:
+    songlyric[artist.lower()] = score
+    del user['AC']
+    user['AC'] = songlyric
+    profilescol.delete_one({"_id": user['_id']})
+    profilescol.insert_many([user])
+  else:
+    if score > userscore:
+      del songlyric[artist.lower()]
+      songlyric[artist.lower()] = score
+      del user['AC']
+      user['AC'] = songlyric
       profilescol.delete_one({"_id": user['_id']})
       profilescol.insert_many([user])
   return True
