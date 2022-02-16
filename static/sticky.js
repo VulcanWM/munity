@@ -26,3 +26,22 @@ function openCity(evt, cityName) {
 }
 
 document.getElementById("defaultOpen").click();
+
+function navbaredit(thelist){
+  const elements = {
+    home : '<a class="nav-link nav-link-ltr" href="/">Home</a>',
+    setartist  : '<a class="nav-link nav-link-ltr" href="/setartist">set artist</a>',
+    changeartist: '<a class="nav-link nav-link-ltr" href="/setartist">change artist</a>',
+    guesssong     : '<a class="nav-link nav-link-ltr" href="/guesssong">guess lyrics</a>',
+    guessalbum  : '<a class="nav-link nav-link-ltr" href="/guessalbum">guess album</a>',
+    login: '<a class="nav-link nav-link-ltr" href="/login">Login</a>',
+    signup: '<a class="nav-link nav-link-ltr" href="/signup">Signup</a>',
+    leaderboard: '<a class="nav-link nav-link-ltr" href="/leaderboard">Leaderboard</a>',
+    profile: '<a class="nav-link nav-link-ltr" href="/profile">Profile</a>',
+    logout: '<a class="nav-link nav-link-ltr" href="/logout">Logout</a>'
+  };
+  var thenavbar = document.getElementsByClassName("navbar")[0]
+  for (let i = 0; i < thelist.length; i++) {
+    thenavbar.innerHTML = thenavbar.innerHTML + elements[thelist[i]];
+  }
+}

@@ -12,18 +12,15 @@
       <h1>Login</h1>
     </div>
     <div class="navbar">
-      <a class="nav-link nav-link-ltr" href="/">Home</a>
-      {% if artist == False %}
-        <a class="nav-link nav-link-ltr" href="/setartist">set artist</a>
-      {% else %}
-        <a class="nav-link nav-link-ltr">Artist: {{artist}}</a>
-        <a class="nav-link nav-link-ltr" href="/setartist">change artist</a>
-        <a class="nav-link nav-link-ltr" href="/guesssong">guess lyrics</a>
-        <a class="nav-link nav-link-ltr" href="/guessalbum">guess album</a>
-      {% endif %}
-      <a class="nav-link nav-link-ltr" href="/login">Login</a>
-      <a class="nav-link nav-link-ltr" href="/signup">Signup</a>
-      <a class="nav-link nav-link-ltr" href="/leaderboard">Leaderboard</a>
+      <script>
+        navbaredit(['home'])
+        {% if artist == False %}
+          navbaredit(['setartist'])
+        {% else %}
+          navbaredit(['changeartist', 'guesssong', 'guessalbum'])
+        {% endif %}
+        navbaredit(['login', 'signup', 'leaderboard'])
+      </script>
     </div>
     <div class="content">
       {% if error != None and error != False and error != "" %}
