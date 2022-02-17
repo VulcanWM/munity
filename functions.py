@@ -9,6 +9,9 @@ from html import escape as esc
 import pymongo
 import dns
 import datetime
+from PIL import Image
+import requests
+from io import BytesIO
 from werkzeug.security import generate_password_hash, check_password_hash
 
 cid = os.getenv("SPOTIPY_CLIENT_ID")
@@ -83,7 +86,7 @@ def getrandomline(artistname):
   line = random.choice(realchorus)
   return song, line
 
-def getalbumcover(artistname):
+def getrandomalbumcover(artistname):
   results = sp.search(q='artist:' + artistname, type='artist')
   albumcovers = []
   albumnames = []
@@ -246,3 +249,44 @@ def moneyleaderboard():
     del x['Password']
     lb.append(x)
   return lb
+
+def getalbumnames(artistname):
+  results = sp.search(q='artist:' + artistname, type='artist')
+  albumnames = []
+  items = results['artists']['items']
+  if len(items) > 0:
+    artist = items[0]
+    uri = artist['uri']
+    albums = sp.artist_albums(artist_id=uri)
+    for album in albums['items']:
+      if album['images'][1]['url'] != None:
+        albumnames.append(album['name'].lower())
+    return albumnames
+
+def getalbumcover(albumname, artistname):
+  results = sp.search(q='artist:' + artistname, type='artist')
+  items = results['artists']['items']
+  if len(items) > 0:
+    artist = items[0]
+    uri = artist['uri']
+    albums = sp.artist_albums(artist_id=uri)
+    for album in albums['items']:
+      if album['images'][1]['url'] != None:
+        if album['name'].lower() == albumname.lower():
+          return album['images'][1]['url']
+
+def coverimagetobyte(url):
+  response = requests.get(url)
+  img = Image.open(BytesIO(response.content))
+  buffer = BytesIO()
+  img.save(buffer, format='png', quality=75)
+  byte_im = buffer.getvalue()
+  return byte_im
+
+# pic1= getalbumcover("CLOUDS", "nf")
+# print(pic1)
+# pic2 = getalbumcover("CLOUDS (THE MIXTAPE)", "nf")
+# print(pic2)
+# print(comparepics(pic1, pic2))
+# pic3 = getalbumcover("The search", "nf")
+# print(pic3)

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, send_file
-from functions import getrandomline, addcookie, delcookies, getcookie, makeaccount, gethashpass, getuser, addmoney, addxp, changesonglyricscore, xpleaderboard, moneyleaderboard, changealbumcoverscore, getalbumcover
+from functions import getrandomline, addcookie, delcookies, getcookie, makeaccount, gethashpass, getuser, addmoney, addxp, changesonglyricscore, xpleaderboard, moneyleaderboard, changealbumcoverscore, getrandomalbumcover, getalbumnames, coverimagetobyte, getalbumcover
 import os
 from werkzeug.security import check_password_hash
 
@@ -199,6 +199,17 @@ def guessalbum():
       return render_template("guessalbumresults.html", result=True, end=False, artist=getcookie("artist"), username=getcookie("User"))
     else:
       addcookie("artist", name)
+      if song.lower() in getalbumnames(name):
+        if coverimagetobyte(getalbumcover(song, name)) == coverimagetobyte(getalbumcover(accsong, name)):
+          points = points + 1
+          if songnumber > 9:
+            addxp(username, points)
+            addmoney(username, points)
+            changealbumcoverscore(username, points*10, name.lower())
+            return render_template("guessalbumresults.html", result=True, end=points*10, artist=getcookie("artist"), username=getcookie("User"))
+          addcookie("albumnumber", songnumber)
+          addcookie("points2", points)
+          return render_template("guessalbumresults.html", result=True, end=False, artist=getcookie("artist"), username=getcookie("User"))
       if songnumber > 9:
         addxp(username, points)
         addmoney(username, points)
@@ -217,7 +228,7 @@ def guessalbum():
       points = 0
     if name == False:
       return redirect("/")
-    func = getalbumcover(name)
+    func = getrandomalbumcover(name)
     username = getcookie("User")
     delcookies()
     if username != False:
