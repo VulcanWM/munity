@@ -139,3 +139,8 @@ input:focus, button:focus{
   border: 1px solid #ccc;
   border-top: none;
 }
+
+.munitypic {
+  height: 25%;
+  width: 25%;
+}
