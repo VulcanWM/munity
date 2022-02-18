@@ -41,9 +41,10 @@ def guessartistfunc():
       points = points + 1
       addcookie("artist", name)
       if songnumber > 19:
-        addxp(username, points)
-        addmoney(username, points)
-        changesonglyricscore(username, points*5, name.lower())
+        if username != False:
+          addxp(username, points)
+          addmoney(username, points)
+          changesonglyricscore(username, points*5, name.lower())
         return render_template("guesssongresults.html", result=True, end=points*5, artist=getcookie("artist"), username=getcookie("User"))
       addcookie("songnumber", songnumber)
       addcookie("points", points)
@@ -51,9 +52,10 @@ def guessartistfunc():
     else:
       addcookie("artist", name)
       if songnumber > 19:
-        addxp(username, points)
-        addmoney(username, points)
-        changesonglyricscore(username, points*5, name.lower())
+        if username != False:
+          addxp(username, points)
+          addmoney(username, points)
+          changesonglyricscore(username, points*5, name.lower())
         return render_template("guesssongresults.html", result=accsong, end=points*5, artist=getcookie("artist"), username=getcookie("User"))
       addcookie("songnumber", songnumber)
       addcookie("points", points)

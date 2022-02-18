@@ -282,11 +282,3 @@ def coverimagetobyte(url):
   img.save(buffer, format='png', quality=75)
   byte_im = buffer.getvalue()
   return byte_im
-
-# pic1= getalbumcover("CLOUDS", "nf")
-# print(pic1)
-# pic2 = getalbumcover("CLOUDS (THE MIXTAPE)", "nf")
-# print(pic2)
-# print(comparepics(pic1, pic2))
-# pic3 = getalbumcover("The search", "nf")
-# print(pic3)
