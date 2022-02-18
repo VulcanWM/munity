@@ -192,9 +192,10 @@ def guessalbum():
       points = points + 1
       addcookie("artist", name)
       if songnumber > 9:
-        addxp(username, points)
-        addmoney(username, points)
-        changealbumcoverscore(username, points*10, name.lower())
+        if username != False:
+          addxp(username, points)
+          addmoney(username, points)
+          changealbumcoverscore(username, points*10, name.lower())
         return render_template("guessalbumresults.html", result=True, end=points*10, artist=getcookie("artist"), username=getcookie("User"))
       addcookie("albumnumber", songnumber)
       addcookie("points2", points)
@@ -205,9 +206,10 @@ def guessalbum():
         if coverimagetobyte(getalbumcover(song, name)) == coverimagetobyte(getalbumcover(accsong, name)):
           points = points + 1
           if songnumber > 9:
-            addxp(username, points)
-            addmoney(username, points)
-            changealbumcoverscore(username, points*10, name.lower())
+            if username != False:
+              addxp(username, points)
+              addmoney(username, points)
+              changealbumcoverscore(username, points*10, name.lower())
             return render_template("guessalbumresults.html", result=True, end=points*10, artist=getcookie("artist"), username=getcookie("User"))
           addcookie("albumnumber", songnumber)
           addcookie("points2", points)
