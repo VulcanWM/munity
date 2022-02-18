@@ -81,7 +81,7 @@ def getrandomline(artistname):
   realchorus = []
   for thelyric in chorus:
     if " " in thelyric:
-      if "embed" not in thelyric.lower() and "verse" not in thelyric.lower() and "chorus" not in thelyric.lower() and "bridge" not in thelyric.lower():
+      if "embed" not in thelyric.lower() and "verse" not in thelyric.lower() and "chorus" not in thelyric.lower() and "bridge" not in thelyric.lower() and "refrain" not in thelyric.lower():
         realchorus.append(thelyric)
   line = random.choice(realchorus)
   return song, line
