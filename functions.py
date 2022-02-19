@@ -240,14 +240,13 @@ def changealbumcoverscore(username, score, artist):
         user["AC"] = songlyric
         profilescol.delete_one({"_id": user["_id"]})
         profilescol.insert_many([user])
-    else:
-        if score > userscore:
-            del songlyric[artist.lower()]
-            songlyric[artist.lower()] = score
-            del user["AC"]
-            user["AC"] = songlyric
-            profilescol.delete_one({"_id": user["_id"]})
-            profilescol.insert_many([user])
+    elif score > userscore:
+        del songlyric[artist.lower()]
+        songlyric[artist.lower()] = score
+        del user["AC"]
+        user["AC"] = songlyric
+        profilescol.delete_one({"_id": user["_id"]})
+        profilescol.insert_many([user])
     return True
 
 
