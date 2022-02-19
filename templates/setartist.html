@@ -28,6 +28,10 @@
       </script>
     </div>
     <div class="content">
+      {% if error != None and error != False and error != "" %}
+        <p>{{error}}</p>
+        <br>
+      {% endif %}
       <form method="POST" action="/setartist">
         <label for="artist">Enter the artist you want to get quizzed on:</label>
         <input type="text" name="artist" id="artist" required>

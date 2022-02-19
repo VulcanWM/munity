@@ -45,6 +45,15 @@ def getsongnames(artistname):
   else:
     return False
 
+def searchartist(artistname):
+  results = sp.search(q='artist:' + artistname, type='artist')
+  items = results['artists']['items']
+  if len(items) == 0:
+    return False
+  else:
+    artist = items[0]
+    return artist['name']
+
 def getlyrics(songname, artistname):
   song = genius.search_song(songname, artistname)
   return song
@@ -57,25 +66,6 @@ def getrandomline(artistname):
     song = random.choice(names)
     lyrics = getlyrics(song, artistname)
   chorus = lyrics.lyrics
-  # lyrics = lyrics.lyrics
-  # parts = lyrics.split("[")
-  # chorustrue = False
-  # for part in parts:
-  #   if "Chorus]" in part:
-  #     chorustrue = part
-  # while chorustrue == False:
-  #   song = random.choice(names)
-  #   lyrics = getlyrics(song, artistname)
-  #   while lyrics == None:
-  #     song = random.choice(names)
-  #     lyrics = getlyrics(song, artistname)
-  #   lyrics = lyrics.lyrics
-  #   parts = lyrics.split("[")
-  #   chorustrue = False
-  #   for part in parts:
-  #     if "Chorus]" in part:
-  #       chorustrue = part
-  # chorus = chorustrue.replace("Chorus]", "")
   chorus = chorus.split("\n")
   chorus = [ x for x in chorus if x != ""]
   realchorus = []

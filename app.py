@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, send_file
-from functions import getrandomline, addcookie, delcookies, getcookie, makeaccount, gethashpass, getuser, addmoney, addxp, changesonglyricscore, xpleaderboard, moneyleaderboard, changealbumcoverscore, getrandomalbumcover, getalbumnames, coverimagetobyte, getalbumcover
+from functions import getrandomline, addcookie, delcookies, getcookie, makeaccount, gethashpass, getuser, addmoney, addxp, changesonglyricscore, xpleaderboard, moneyleaderboard, changealbumcoverscore, getrandomalbumcover, getalbumnames, coverimagetobyte, getalbumcover, searchartist
 import os
 from werkzeug.security import check_password_hash
 
@@ -14,9 +14,12 @@ def index():
 def getartistfunc():
   if request.method == 'POST':
     name = request.form['artist']
+    func = searchartist(name)
+    if searchartist(name) == False:
+      return render_template("setartist.html", artist=getcookie("artist"), username=getcookie("User"), error=f"{name} is not a real artist in Spotify!")
     username = getcookie("User")
     delcookies()
-    addcookie("artist", name)
+    addcookie("artist", func)
     if username != False:
       addcookie("User", username)
     return redirect("/")
