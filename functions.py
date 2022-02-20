@@ -272,3 +272,12 @@ def coverimagetobyte(url):
   img.save(buffer, format='png', quality=75)
   byte_im = buffer.getvalue()
   return byte_im
+
+def removebrackets(name):
+  start = name.find('(')
+  end = name.find(')')
+  name = list(name)
+  for char in range(end-start+1):
+    del name[start]
+  name = "".join(name)
+  return name

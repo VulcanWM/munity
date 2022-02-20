@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, send_file
-from functions import getrandomline, addcookie, delcookies, getcookie, makeaccount, gethashpass, getuser, addmoney, addxp, changesonglyricscore, xpleaderboard, moneyleaderboard, changealbumcoverscore, getrandomalbumcover, getalbumnames, coverimagetobyte, getalbumcover, searchartist
+from functions import getrandomline, addcookie, delcookies, getcookie, makeaccount, gethashpass, getuser, addmoney, addxp, changesonglyricscore, xpleaderboard, moneyleaderboard, changealbumcoverscore, getrandomalbumcover, getalbumnames, coverimagetobyte, getalbumcover, searchartist, removebrackets
 import os
 from werkzeug.security import check_password_hash
 
@@ -53,6 +53,21 @@ def guessartistfunc():
       addcookie("points", points)
       return render_template("guesssongresults.html", result=True, end=False, artist=getcookie("artist"), username=getcookie("User"))
     else:
+      if "(" in accsong.lower() and ")" in accsong.lower():
+        withoutbracket = removebrackets(accsong)
+        song = removebrackets(song)
+        if withoutbracket.lower() == song.lower():
+          points = points + 1
+          addcookie("artist", name)
+          if songnumber > 19:
+            if username != False:
+              addxp(username, points*3)
+              addmoney(username, points*3)
+              changesonglyricscore(username, points*5, name.lower())
+            return render_template("guesssongresults.html", result=True, end=points*5, artist=getcookie("artist"), username=getcookie("User"))
+          addcookie("songnumber", songnumber)
+          addcookie("points", points)
+          return render_template("guesssongresults.html", result=True, end=False, artist=getcookie("artist"), username=getcookie("User"))
       addcookie("artist", name)
       if songnumber > 19:
         if username != False:
@@ -189,6 +204,8 @@ def guessalbum():
     points = getcookie("points2")
     username = getcookie("User")
     delcookies()
+    accsong = accsong.replace(" ", "")
+    song = song.replace(" ", "")
     if username != False:
       addcookie("User", username)
     if song.lower() == accsong.lower():
@@ -207,6 +224,20 @@ def guessalbum():
       addcookie("artist", name)
       if song.lower() in getalbumnames(name):
         if coverimagetobyte(getalbumcover(song, name)) == coverimagetobyte(getalbumcover(accsong, name)):
+          points = points + 1
+          if songnumber > 9:
+            if username != False:
+              addxp(username, points)
+              addmoney(username, points)
+              changealbumcoverscore(username, points*10, name.lower())
+            return render_template("guessalbumresults.html", result=True, end=points*10, artist=getcookie("artist"), username=getcookie("User"))
+          addcookie("albumnumber", songnumber)
+          addcookie("points2", points)
+          return render_template("guessalbumresults.html", result=True, end=False, artist=getcookie("artist"), username=getcookie("User"))
+      if "(" in accsong.lower() and ")" in accsong.lower():
+        withoutbracket = removebrackets(accsong)
+        song = removebrackets(song)
+        if withoutbracket.lower() == song.lower():
           points = points + 1
           if songnumber > 9:
             if username != False:
