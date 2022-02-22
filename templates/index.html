@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-GB">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
@@ -7,6 +7,9 @@
     <link href="/main.css" rel="stylesheet" type="text/css" />
     <script src="/sticky.js"></script>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favico.ico') }}" />
+    <meta name="author" content="VulcanWM">
+    <meta name="description" content="Play fun games on Munity">
+    <meta name="keywords" content="munity, music, vulcanwm, game, fun, song, album">
   </head>
   <body>
     <div class="header">
@@ -28,7 +31,7 @@
       </script>
     </div>
     <div class="content">
-      <img class="munitypic" src="{{ url_for('static', filename='Munity.png') }}">
+      <img class="munitypic" src="{{ url_for('static', filename='Munity.avif') }}" alt="munitylogo">
       <p>Munity is a game where you can test yourself on things related to an artist.</p>
       <p>This game gets the song and album names from Spotify, and then gets lyrics from Genius.com.</p>
       <p>You can play it without signing up, but if you sign up, you can see your highest scores in each game and can have XP and money.</p>
