@@ -14,6 +14,9 @@ import requests
 from io import BytesIO
 from werkzeug.security import generate_password_hash, check_password_hash
 
+os.system("pip install profanity")
+from profanity import profanity
+
 cid = os.getenv("SPOTIPY_CLIENT_ID")
 secret = os.getenv("SPOTIPY_CLIENT_SECRET")
 client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
@@ -72,7 +75,7 @@ def getrandomline(artistname):
   for thelyric in chorus:
     if " " in thelyric:
       if "embed" not in thelyric.lower() and "verse" not in thelyric.lower() and "chorus" not in thelyric.lower() and "bridge" not in thelyric.lower() and "refrain" not in thelyric.lower() and "outro" not in thelyric.lower() and "intro" not in thelyric.lower():
-        realchorus.append(thelyric)
+        realchorus.append(profanity.censor(thelyric))
   line = random.choice(realchorus)
   return song, line
 
