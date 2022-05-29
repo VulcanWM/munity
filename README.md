@@ -8,3 +8,7 @@
 <p>Currently, you can test yourself on an artist's song lyrics and album covers.</p>
 <hr>
 <p>Thanks to <a href="https://dillonb07.is-a.dev">dillonb07</a> for helping with the logo</p>
+
+---
+
+Made by [VulcanWM](https://vulcanwm.is-a.dev)
